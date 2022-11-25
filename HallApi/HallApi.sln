@@ -5,6 +5,10 @@ VisualStudioVersion = 17.4.33110.190
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HallApi", "HallApi\HallApi.csproj", "{1F17FF67-07E4-4AE8-8971-C6B5D6BBFE21}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HallDomain", "HallDomain\HallDomain.csproj", "{090B047E-F544-4555-A7A1-581AF56EA777}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HallDal", "HallDal\HallDal.csproj", "{CD4E3B54-404B-4F55-964F-4E323FCA4BCB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +19,14 @@ Global
 		{1F17FF67-07E4-4AE8-8971-C6B5D6BBFE21}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1F17FF67-07E4-4AE8-8971-C6B5D6BBFE21}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1F17FF67-07E4-4AE8-8971-C6B5D6BBFE21}.Release|Any CPU.Build.0 = Release|Any CPU
+		{090B047E-F544-4555-A7A1-581AF56EA777}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{090B047E-F544-4555-A7A1-581AF56EA777}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{090B047E-F544-4555-A7A1-581AF56EA777}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{090B047E-F544-4555-A7A1-581AF56EA777}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CD4E3B54-404B-4F55-964F-4E323FCA4BCB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CD4E3B54-404B-4F55-964F-4E323FCA4BCB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CD4E3B54-404B-4F55-964F-4E323FCA4BCB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CD4E3B54-404B-4F55-964F-4E323FCA4BCB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
