@@ -13,13 +13,14 @@ namespace HallDal.Repositories
 
         public IEnumerable<string> GetHalls()
         {
-            var db = _dbContext.Rooms.ToList();
-            var rooms = new List<string>();
-            foreach (var room in db)
-            {
-                rooms.Add(room.RoomName);
-            }
-            return rooms;
+            //var db = _dbContext.Rooms.ToList();
+            //var rooms = new List<string>();
+            //foreach (var room in db)
+            //{
+            //    rooms.Add(room.RoomName);
+            //}
+
+            return _dbContext.Rooms.Select(r => r.RoomName).ToList();
         }
     }
 }
