@@ -1,4 +1,5 @@
 ﻿using HallDomain.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace HallDal.Repositories
 {
@@ -11,7 +12,19 @@ namespace HallDal.Repositories
             this._dbContext = _dbContext;
         }
 
-        public IEnumerable<string> GetHalls()
+        //public IEnumerable<string> GetHalls()
+        //{
+        //    //var db = _dbContext.Rooms.ToList();
+        //    //var rooms = new List<string>();
+        //    //foreach (var room in db)
+        //    //{
+        //    //    rooms.Add(room.RoomName);
+        //    //}
+
+        //    return _dbContext.Rooms.Select(r => r.RoomName).ToList();
+        //}
+
+        public async Task<IEnumerable<string>> GetHallsAsync()
         {
             //var db = _dbContext.Rooms.ToList();
             //var rooms = new List<string>();
@@ -20,7 +33,7 @@ namespace HallDal.Repositories
             //    rooms.Add(room.RoomName);
             //}
 
-            return _dbContext.Rooms.Select(r => r.RoomName).ToList();
+            return await _dbContext.Rooms.Select(r => r.RoomName).ToListAsync();
         }
     }
 }
