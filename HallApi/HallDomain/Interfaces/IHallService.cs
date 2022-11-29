@@ -3,5 +3,5 @@
 public interface IHallService
 {
     IEnumerable<string> GetHalls();
-    IEnumerable<string> GetPeople();
+    //IEnumerable<string> GetPeople();
 }

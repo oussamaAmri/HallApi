@@ -16,6 +16,10 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IHallService, HallService>();
 
 builder.Services.AddScoped<IHallRepository,HallRepository>();
+
+builder.Services.AddScoped<IPeopleService, PeopleService>();
+builder.Services.AddScoped<IPeopleRepository, PeopleRepository>();
+
 //builder.Services.AddSingleton;
 //builder.Services.AddTransient;
 

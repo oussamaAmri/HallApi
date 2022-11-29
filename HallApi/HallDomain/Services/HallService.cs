@@ -12,11 +12,11 @@ public class HallService : IHallService
 
     public IEnumerable<string> GetPeople()
     {
-        return _repository.GetPeople();
+        throw new NotImplementedException();
     }
 
     public HallService(IHallRepository hallRepository)
     {
-        _repository= hallRepository;
+        _repository = hallRepository;
     }
 }

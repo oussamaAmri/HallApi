@@ -1,37 +1,29 @@
-﻿using HallDal;
-using HallDomain.Interfaces;
-using HallDomain.Services;
-using Microsoft.AspNetCore.Http;
+﻿using HallDomain.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HallApi.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api")]
     [ApiController]
     public class HallController : ControllerBase
     {
-//        private readonly FuwearContext dbContext;
-
         /*        [HttpGet]
 public IEnumerable<string> Get()
 {
 return new List<string>() { "Salle 1", "Salle 2" , "Salle 3" };
 }
 */
-        private readonly IHallService _ihallService;
+        private readonly IHallService _hallService;
+
         public HallController(IHallService ihallService)
         {
-            _ihallService= ihallService;
+            _hallService = ihallService;
         }
-        [HttpGet("Hall")]
-        public ActionResult<IEnumerable<string>> Get()
+
+        [HttpGet("Halls")]
+        public IActionResult GetHalls()
         {
-            return _ihallService.GetHalls().ToList();
-        }
-        [HttpGet("Personne")]
-        public ActionResult<IEnumerable<string>> GetP()
-        {
-            return _ihallService.GetPeople().ToList();
+            return Ok(_hallService.GetHalls().ToList());
         }
     }
 }

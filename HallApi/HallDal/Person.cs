@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace HallDal;
+﻿namespace HallDal;
 
 public partial class Person
 {
