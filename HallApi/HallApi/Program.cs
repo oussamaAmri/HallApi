@@ -1,5 +1,9 @@
+using HallDal;
+using HallDal.Repositories;
 using HallDomain.Interfaces;
 using HallDomain.Services;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,8 +15,11 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IHallService, HallService>();
 
+builder.Services.AddScoped<IHallRepository,HallRepository>();
 //builder.Services.AddSingleton;
 //builder.Services.AddTransient;
+
+builder.Services.AddDbContext<FuwearContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 var app = builder.Build();
 

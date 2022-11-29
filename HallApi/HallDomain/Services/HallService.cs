@@ -4,8 +4,19 @@ namespace HallDomain.Services;
 
 public class HallService : IHallService
 {
+    private readonly IHallRepository _repository;
     public IEnumerable<string> GetHalls()
     {
-        return new List<string>() { "Salle 1", "Salle 2", "Salle 3" };
+        return _repository.GetHalls();
+    }
+
+    public IEnumerable<string> GetPeople()
+    {
+        return _repository.GetPeople();
+    }
+
+    public HallService(IHallRepository hallRepository)
+    {
+        _repository= hallRepository;
     }
 }
