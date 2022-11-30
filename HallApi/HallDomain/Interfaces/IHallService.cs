@@ -3,5 +3,5 @@
 public interface IHallService
 {
     Task<IEnumerable<string>> GetHallsAsync();
-    //IEnumerable<string> GetPeople();
+    Task<IEnumerable<string>> AddHallsAsync();
 }

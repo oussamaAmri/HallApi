@@ -1,4 +1,5 @@
-﻿using HallDomain.Interfaces;
+﻿using HallDal;
+using HallDomain.Interfaces;
 using HallDomain.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -27,5 +28,15 @@ return new List<string>() { "Salle 1", "Salle 2" , "Salle 3" };
             IEnumerable<string> hall = await _hallService.GetHallsAsync();
             return Ok(hall);
         }
+        [HttpPost("AddHals")]
+        public async Task<IActionResult> AddHallsAsync()
+        {
+/*            var person = new Person()
+            {
+                Id = Guid.NewGuid(),
+                FirstName = _hallService.AddHallsAsync().
+            }*/
+        }
+
     }
 }
