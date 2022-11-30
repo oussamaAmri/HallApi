@@ -2,6 +2,6 @@
 
 public interface IHallService
 {
-    IEnumerable<string> GetHalls();
+    Task<IEnumerable<string>> GetHallsAsync();
     //IEnumerable<string> GetPeople();
 }

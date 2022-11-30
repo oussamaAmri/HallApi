@@ -2,5 +2,5 @@
 
 public interface IPeopleService
 {
-    IEnumerable<string> GetPeople();
+    Task<IEnumerable<string>> GetPeopleAsync();
 }

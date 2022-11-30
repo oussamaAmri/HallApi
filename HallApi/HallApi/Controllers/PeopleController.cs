@@ -15,9 +15,11 @@ namespace HallApi.Controllers
         }
 
         [HttpGet("Personnes")]
-        public IActionResult GetPeople()
+        public async Task<IActionResult> GetPeopleAsync()
         {
-            return Ok(_peopleService.GetPeople().ToList());
+            IEnumerable<string> people = await _peopleService.GetPeopleAsync();
+            return Ok(people);
         }
     }
 }
+ 

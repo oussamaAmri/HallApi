@@ -1,4 +1,6 @@
 ﻿using HallDomain.Interfaces;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,6 +25,11 @@ namespace HallDal.Repositories
                 peopleList.Add(people.FirstName + " " + people.LastName);
             }
             return peopleList;
+        }
+
+        public async Task<IEnumerable<string>> GetPeopleAsync()
+        {
+            return await _dbContext.People.Select(p => p.FirstName + " " +  p.LastName).ToListAsync();
         }
     }
 }

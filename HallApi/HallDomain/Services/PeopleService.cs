@@ -5,9 +5,9 @@ namespace HallDomain.Services;
 public class PeopleService : IPeopleService
 {
     private readonly IPeopleRepository _repository;
-    public IEnumerable<string> GetPeople()
+    public async Task<IEnumerable<string>> GetPeopleAsync()
     {
-        return _repository.GetPeople();
+        return await _repository.GetPeopleAsync();
     }
 
     public PeopleService(IPeopleRepository peopleRepository)

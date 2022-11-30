@@ -1,4 +1,5 @@
 ﻿using HallDomain.Interfaces;
+using HallDomain.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HallApi.Controllers
@@ -21,9 +22,10 @@ return new List<string>() { "Salle 1", "Salle 2" , "Salle 3" };
         }
 
         [HttpGet("Halls")]
-        public IActionResult GetHalls()
+        public async Task<IActionResult> GetHallsAsync()
         {
-            return Ok(_hallService.GetHalls().ToList());
+            IEnumerable<string> hall = await _hallService.GetHallsAsync();
+            return Ok(hall);
         }
     }
 }

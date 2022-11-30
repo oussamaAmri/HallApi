@@ -5,9 +5,9 @@ namespace HallDomain.Services;
 public class HallService : IHallService
 {
     private readonly IHallRepository _repository;
-    public IEnumerable<string> GetHalls()
+    public async Task<IEnumerable<string>> GetHallsAsync()
     {
-        return _repository.GetHalls();
+        return await _repository.GetHallsAsync();
     }
 
     public IEnumerable<string> GetPeople()
