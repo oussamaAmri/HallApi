@@ -9,7 +9,11 @@ public class HallService : IHallService
     {
         return await _repository.GetHallsAsync();
     }
-
+/*    public async Task<IEnumerable<string>> AddHallsAsync()
+    {
+        return await _repository.AddHallsAsync();
+    }
+*/
     public IEnumerable<string> GetPeople()
     {
         throw new NotImplementedException();

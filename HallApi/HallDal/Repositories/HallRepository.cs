@@ -35,5 +35,13 @@ namespace HallDal.Repositories
 
             return await _dbContext.Rooms.Select(r => r.RoomName).ToListAsync();
         }
+
+//        public async Task<IEnumerable<string>> AddHallsAsync(Room room)
+//        {
+//            var db = _dbContext.Rooms.Add(room);
+//            return await db;
+//            return AddHallsAsync(new {name = room.RoomName});
+             
+//        }
     }
 }

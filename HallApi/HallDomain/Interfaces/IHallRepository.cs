@@ -3,5 +3,5 @@
 public interface IHallRepository
 {
     Task<IEnumerable<string>> GetHallsAsync();
-    Task<IEnumerable<string>> AddHallsAsync();
+ //   Task<IEnumerable<string>> AddHallsAsync();
 }
