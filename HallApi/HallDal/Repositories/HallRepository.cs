@@ -1,4 +1,6 @@
-﻿using HallDomain.Interfaces;
+﻿using HallDal.Entities;
+using HallDomain.Interfaces;
+using HallDomain.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace HallDal.Repositories
@@ -24,16 +26,25 @@ namespace HallDal.Repositories
         //    return _dbContext.Rooms.Select(r => r.RoomName).ToList();
         //}
 
-        public async Task<IEnumerable<string>> GetHallsAsync()
-        {
-            //var db = _dbContext.Rooms.ToList();
-            //var rooms = new List<string>();
-            //foreach (var room in db)
-            //{
-            //    rooms.Add(room.RoomName);
-            //}
+        //public async Task<IEnumerable<string>> GetHallsAsync()
+        //{
+        //    //var db = _dbContext.Rooms.ToList();
+        //    //var rooms = new List<string>();
+        //    //foreach (var room in db)
+        //    //{
+        //    //    rooms.Add(room.RoomName);
+        //    //}
 
-            return await _dbContext.Rooms.Select(r => r.RoomName).ToListAsync();
+        //    return await _dbContext.Rooms.Select(r => r.RoomName).ToListAsync();
+        //}
+
+        public async Task<IEnumerable<Hall>> GetHallsAsync()
+        {
+            return await _dbContext.Rooms.Select(r => new Hall
+            {
+                Id = r.Id,
+                Name = r.RoomName
+            }).ToListAsync();
         }
     }
 }

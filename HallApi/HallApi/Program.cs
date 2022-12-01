@@ -1,9 +1,8 @@
-using HallDal;
+using HallDal.Entities;
 using HallDal.Repositories;
 using HallDomain.Interfaces;
 using HallDomain.Services;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 

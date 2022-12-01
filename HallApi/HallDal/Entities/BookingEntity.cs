@@ -1,6 +1,6 @@
-﻿namespace HallDal;
+﻿namespace HallDal.Entities;
 
-public partial class Booking
+public partial class BookingEntity
 {
     public int Id { get; set; }
 
@@ -14,7 +14,7 @@ public partial class Booking
 
     public int EndSlot { get; set; }
 
-    public virtual Person Person { get; set; } = null!;
+    public virtual PersonEntity Person { get; set; } = null!;
 
-    public virtual Room Room { get; set; } = null!;
+    public virtual RoomEntity Room { get; set; } = null!;
 }

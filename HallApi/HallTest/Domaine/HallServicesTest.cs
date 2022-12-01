@@ -1,34 +1,32 @@
-﻿using HallApi.Controllers;
-using HallDomain.Interfaces;
+﻿using HallDomain.Interfaces;
+using HallDomain.Models;
 using HallDomain.Services;
-using Microsoft.AspNetCore.Mvc;
 using NFluent;
 using NSubstitute;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace HallTest.Domaine
+namespace HallTest.Domaine;
+
+public class HallServicesTest
 {
-    public class HallServicesTest
+    [Fact]
+    public async Task Should_IHallService_Return_halls()
     {
-        [Fact]
-        public async Task Should_IHallService_Return_halls()
+        //Arrange
+        var ihallRepository = Substitute.For<IHallRepository>();
+        var halls = new List<Hall>
         {
-            //Arrange
-            var ihallRepository = Substitute.For<IHallRepository>();
-            var halls = new List<string> { "room1", "room2" };
-            ihallRepository.GetHallsAsync().Returns(halls);
-            var hallService = new HallService(ihallRepository);
-            //Act
+            new Hall { Id = 1, Name = "room1" },
+            new Hall { Id = 2, Name = "room2" }
+        };
+        ihallRepository.GetHallsAsync().Returns(halls);
+        var hallService = new HallService(ihallRepository);
 
-            var result = await hallService.GetHallsAsync();
+        //Act
+        var result = await hallService.GetHallsAsync();
 
-            //Asert
-
-            Check.That(result).ContainsExactly("room1","room2");
-        }
+        //Asert
+        Check.That(result).HasSize(2);
+        Check.That(result.ElementAt(0).Name).IsEqualTo("room1");
+        Check.That(result.ElementAt(1).Name).IsEqualTo("room2");
     }
 }

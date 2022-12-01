@@ -1,11 +1,12 @@
 ﻿using HallDomain.Interfaces;
+using HallDomain.Models;
 
 namespace HallDomain.Services;
 
 public class HallService : IHallService
 {
     private readonly IHallRepository _repository;
-    public async Task<IEnumerable<string>> GetHallsAsync()
+    public async Task<IEnumerable<Hall>> GetHallsAsync()
     {
         return await _repository.GetHallsAsync();
     }

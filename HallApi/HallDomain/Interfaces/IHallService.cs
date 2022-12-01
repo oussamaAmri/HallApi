@@ -1,7 +1,9 @@
-﻿namespace HallDomain.Interfaces;
+﻿using HallDomain.Models;
+
+namespace HallDomain.Interfaces;
 
 public interface IHallService
 {
-    Task<IEnumerable<string>> GetHallsAsync();
+    Task<IEnumerable<Hall>> GetHallsAsync();
     Task<IEnumerable<string>> AddHallsAsync();
 }

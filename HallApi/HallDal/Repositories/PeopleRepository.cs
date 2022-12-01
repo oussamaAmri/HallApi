@@ -1,4 +1,5 @@
-﻿using HallDomain.Interfaces;
+﻿using HallDal.Entities;
+using HallDomain.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System;

@@ -21,4 +21,8 @@
     <ProjectReference Include="..\HallDomain\HallDomain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Dtos\Requests\" />
+  </ItemGroup>
+
 </Project>
