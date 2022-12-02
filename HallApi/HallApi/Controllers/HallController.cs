@@ -1,5 +1,8 @@
-﻿using HallDal;
+﻿using HallApi.Dtos.Requests;
+using HallApi.Dtos.Responses;
+using HallDal;
 using HallDomain.Interfaces;
+using HallDomain.Models;
 using HallDomain.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,7 +19,7 @@ return new List<string>() { "Salle 1", "Salle 2" , "Salle 3" };
 }
 */
         private readonly IHallService _hallService;
-        private readonly FuwearContext _db;
+        //        private readonly FuwearContext _db;
 
         public HallController(IHallService ihallService)
         {
@@ -26,14 +29,25 @@ return new List<string>() { "Salle 1", "Salle 2" , "Salle 3" };
         [HttpGet("Halls")]
         public async Task<IActionResult> GetHallsAsync()
         {
-            IEnumerable<string> hall = await _hallService.GetHallsAsync();
-            return Ok(hall);
+            IEnumerable<Hall> hall = await _hallService.GetHallsAsync();
+            return Ok(new HallsResponse
+            {
+                Halls = hall.Select(h => new Dtos.HallDto
+                {
+                    Id = h.Id,
+                    Name = h.Name
+                })
+            });
         }
- /*       [HttpPost("AddHals")]
-               public async Task <ActionResult<Room>> AddHallsAsync()
-               {
-                       IEnumerable<string> addroom = await _hallService.AddHallsAsync();
-                       return Ok(addroom);
-               }*/
+        [HttpPost("Halls")]
+        public async Task<IActionResult> AddHallsAsync([FromBody] CreateHallRequest createHallRequest)
+        {
+            var hall = new Hall { Name = createHallRequest.RoomName };
+            var addroom = await _hallService.AddHallsAsync(hall);
+            return this.StatusCode(201, new CreateHallResponse
+            {
+                CreatedHall = new Dtos.HallDto { Id = addroom.Id, Name = addroom.Name }
+            });
+        }
     }
 }

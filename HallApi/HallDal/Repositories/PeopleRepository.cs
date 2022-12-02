@@ -1,4 +1,6 @@
-﻿using HallDomain.Interfaces;
+﻿using HallDal.Entities;
+using HallDomain.Interfaces;
+using HallDomain.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System;
@@ -16,7 +18,7 @@ namespace HallDal.Repositories
         {
             this._dbContext = dbContext;
         }
-        public IEnumerable<string> GetPeople()
+/*        public IEnumerable<string> GetPeople()
         {
             var db = _dbContext.People.ToList();
             var peopleList = new List<string>();
@@ -26,10 +28,36 @@ namespace HallDal.Repositories
             }
             return peopleList;
         }
+*/
 
-        public async Task<IEnumerable<string>> GetPeopleAsync()
+
+
+        public async Task<IEnumerable<People>> GetPeopleAsync()
         {
-            return await _dbContext.People.Select(p => p.FirstName + " " +  p.LastName).ToListAsync();
+            return await _dbContext.People.Select(p => new People
+            {
+                Id = p.Id,
+                FirstName = p.FirstName,
+                LastName = p.LastName
+            }).ToListAsync();
+        }
+
+        /*        public async Task<People> AddPeoplesAsync(People people)
+                {
+                    var room = new RoomEntity { RoomName = hall.Name };
+                    var db = _dbContext.Rooms.Add(room);
+                    await _dbContext.SaveChangesAsync();
+                    return new Hall { Id = room.Id, Name = room.RoomName };
+
+                }*/
+
+        public async Task<People> AddPeoplesAsync(People people)
+        {
+            var person = new PersonEntity { FirstName = people.FirstName, LastName = people.LastName };
+            _dbContext.People.Add(person);
+            await _dbContext.SaveChangesAsync();
+            return new People { Id = person.Id, FirstName = person.FirstName, LastName = person.LastName};
+
         }
     }
 }
