@@ -39,6 +39,23 @@ return new List<string>() { "Salle 1", "Salle 2" , "Salle 3" };
                 })
             });
         }
+
+        [HttpGet("Halls/{id}")]
+
+        public async Task<IActionResult> GetHallsByIdAsync([FromRoute]int id)
+        {
+            
+            var  hall = await _hallService.GetHallsByIdAsync(id);
+            if (hall == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(new HallResponse
+            {
+                Hall = new Dtos.HallDto { Id = hall.Id,Name = hall.Name}
+            });
+        }
         [HttpPost("Halls")]
         public async Task<IActionResult> AddHallsAsync([FromBody] CreateHallRequest createHallRequest)
         {

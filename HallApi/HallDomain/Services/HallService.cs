@@ -10,6 +10,12 @@ public class HallService : IHallService
     {
         return await _repository.GetHallsAsync();
     }
+
+    public async Task<Hall> GetHallsByIdAsync(int id)
+    {
+        return await _repository.GetHallsByIdAsync(id);
+    }
+
     public async Task<Hall> AddHallsAsync(Hall hall)
     {
         return await _repository.AddHallsAsync(hall);

@@ -47,6 +47,16 @@ namespace HallDal.Repositories
             }).ToListAsync();
         }
 
+        public async Task<Hall> GetHallsByIdAsync(int id)
+        {
+            var rooms = await _dbContext.Rooms.SingleOrDefaultAsync(r => r.Id == id);
+            if (rooms == null)
+            {
+                return null;
+            }
+                return new Hall { Id = rooms.Id, Name =rooms.RoomName};
+        }
+
         public async Task<Hall> AddHallsAsync(Hall hall)
         {
             var room = new RoomEntity { RoomName = hall.Name };
