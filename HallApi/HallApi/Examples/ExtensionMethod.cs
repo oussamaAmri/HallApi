@@ -10,8 +10,9 @@
                 Sport = "Football"
             };
 
-            var myVar1 = team.IsFootball_1();
-            var myVar2 = ExtensionForTeam.IsFootball_2(team);
+            var myVar1 = team.IsFootball_1(); // Appel de la méthode directement sur l'objet
+
+            var myVar2 = ExtensionForTeam.IsFootball_2(team); // Appel de la méthode via la classe de la méthode
         }
     }
 

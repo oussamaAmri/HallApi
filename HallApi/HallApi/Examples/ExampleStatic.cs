@@ -4,10 +4,10 @@
     {
         public void Execute()
         {
-            var myInstance = new MyClass();
+            var myInstance = new MyClass(); // Instanciation de l'objet
             var result1 = myInstance.GetNotStaticInt();
             
-            var result2 = MyClass.GetStaticInt();
+            var result2 = MyClass.GetStaticInt(); // Pas besoin de l'instanciation de l'objet
         }
     }
 
