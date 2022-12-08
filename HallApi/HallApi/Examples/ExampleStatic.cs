@@ -4,9 +4,9 @@
     {
         public void Execute()
         {
-            var myClass = new MyClass();
+            var myInstance = new MyClass();
 
-            var result1 = myClass.GetNotStaticInt();
+            var result1 = myInstance.GetNotStaticInt();
             var result2 = MyClass.GetStaticInt();
         }
     }
