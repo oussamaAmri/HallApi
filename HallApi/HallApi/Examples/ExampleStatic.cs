@@ -5,8 +5,8 @@
         public void Execute()
         {
             var myInstance = new MyClass();
-
             var result1 = myInstance.GetNotStaticInt();
+            
             var result2 = MyClass.GetStaticInt();
         }
     }
