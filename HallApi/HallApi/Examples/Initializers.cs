@@ -55,18 +55,25 @@
             };
             //
 
-            // Différences entre IEnumerable, Ilist, List
-            IEnumerable<int> myEnumerable = new List<int>();
+            // Différences entre IEnumerable, Ilist, List et Array
+            IEnumerable<int> myEnumerable = new List<int>() { 7 };
             var c1 = myEnumerable.Count();
+            var e1 = myEnumerable.ElementAt(0);
 
             IList<int> myIList = new List<int>();
             var c2 = myIList.Count;
             myIList.Add(1);
+            var e2 = myIList[0];
 
             List<int> myList = new List<int>();
             var c3 = myList.Count;
             myList.Add(1);
             myList.AddRange(new List<int> { 1, 2, 3 });
+            var e3 = myList[0];
+
+            int[] myArray = new int[] { 7 };
+            var c4 = myArray.Length;
+            var e4 = myArray[0];
             //
         }
     }
