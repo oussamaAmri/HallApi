@@ -75,6 +75,12 @@
             var c4 = myArray.Length;
             var e4 = myArray[0];
             //
+
+            // Tout peut-être mis dans un IEnumerable
+            IEnumerable<int> list1 = myEnumerable;
+            IEnumerable<int> list2 = myIList;
+            IEnumerable<int> list3 = myList;
+            IEnumerable<int> list4 = myArray;
         }
     }
 
