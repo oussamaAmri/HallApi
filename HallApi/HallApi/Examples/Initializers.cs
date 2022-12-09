@@ -55,7 +55,7 @@
             };
             //
 
-            // Différences entre IEnumerable, Ilist, List et Array
+            // Différences entre IEnumerable, IList, List et Array
             IEnumerable<int> myEnumerable = new List<int>() { 7 };
             var c1 = myEnumerable.Count();
             var e1 = myEnumerable.ElementAt(0);
