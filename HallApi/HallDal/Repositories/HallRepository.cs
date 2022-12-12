@@ -65,5 +65,29 @@ namespace HallDal.Repositories
             return new Hall { Id=room.Id, Name = room.RoomName };
              
         }
+
+        public async Task<Hall> UpdateHallsAsync(int id, Hall hall)
+        {
+            var room = await _dbContext.Rooms.FindAsync(id);
+            var roomToUpdate = new RoomEntity { RoomName = hall.Name};
+            if (room == null)
+            {
+                return null;
+            }
+            room.RoomName = roomToUpdate.RoomName;
+            await _dbContext.SaveChangesAsync();
+            return new Hall { Id = room.Id, Name = room.RoomName};
+        }
+        public async Task<Hall> DeleteHallsAsync(int id)
+        {
+            var room = await _dbContext.Rooms.FindAsync(id);
+            if (room == null)
+            {
+                return null;
+            }
+            _dbContext.Rooms.Remove(room);
+            await _dbContext.SaveChangesAsync();
+            return new Hall { Id = room.Id, Name = room.RoomName};
+        }
     }
 }

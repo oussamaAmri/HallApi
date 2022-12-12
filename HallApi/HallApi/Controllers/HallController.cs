@@ -42,10 +42,10 @@ return new List<string>() { "Salle 1", "Salle 2" , "Salle 3" };
 
         [HttpGet("Halls/{id}")]
 
-        public async Task<IActionResult> GetHallsByIdAsync([FromRoute]int id)
+        public async Task<IActionResult> GetHallsByIdAsync([FromRoute] int id)
         {
-            
-            var  hall = await _hallService.GetHallsByIdAsync(id);
+
+            var hall = await _hallService.GetHallsByIdAsync(id);
             if (hall == null)
             {
                 return NotFound();
@@ -53,7 +53,7 @@ return new List<string>() { "Salle 1", "Salle 2" , "Salle 3" };
 
             return Ok(new HallResponse
             {
-                Hall = new Dtos.HallDto { Id = hall.Id,Name = hall.Name}
+                Hall = new Dtos.HallDto { Id = hall.Id, Name = hall.Name }
             });
         }
         [HttpPost("Halls")]
@@ -66,5 +66,38 @@ return new List<string>() { "Salle 1", "Salle 2" , "Salle 3" };
                 CreatedHall = new Dtos.HallDto { Id = addroom.Id, Name = addroom.Name }
             });
         }
+        [HttpPost("Halls/{id}")]
+        public async Task<IActionResult> UpdateHallsAsync([FromRoute] int id, [FromBody] UpdateHallRequest updateHallRequest)
+        {
+            var room = new Hall { Name = updateHallRequest.RoomName };
+            var updateRoom = await _hallService.UpdateHallsAsync(id, room);
+            if (updateRoom == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                return this.Ok(new UpdateHallResponse
+                {
+                    UpdateHall = new Dtos.HallDto { Id = updateRoom.Id, Name = updateRoom.Name }
+                });
+            }
+        }
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteHallsAsync([FromRoute] int id)
+        {
+
+            var hall = await _hallService.DeleteHallsAsync(id);
+            if (hall == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(new HallResponse
+            {
+                Hall = new Dtos.HallDto { Id = hall.Id, Name = hall.Name }
+            });
+        }
+
     }
 }

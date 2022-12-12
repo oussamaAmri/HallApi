@@ -30,8 +30,6 @@ namespace HallDal.Repositories
         }
 */
 
-
-
         public async Task<IEnumerable<People>> GetPeopleAsync()
         {
             return await _dbContext.People.Select(p => new People
@@ -50,7 +48,15 @@ namespace HallDal.Repositories
                     return new Hall { Id = room.Id, Name = room.RoomName };
 
                 }*/
-
+        public async Task<People> GetPeopleByIdAsync(int id)
+        {
+            var person = await _dbContext.People.SingleOrDefaultAsync(p => p.Id == id);
+            if (person == null)
+            {
+                return null;
+            }
+            return new People { Id = person.Id, FirstName = person.FirstName, LastName = person.LastName };
+        }
         public async Task<People> AddPeoplesAsync(People people)
         {
             var person = new PersonEntity { FirstName = people.FirstName, LastName = people.LastName };
@@ -58,6 +64,20 @@ namespace HallDal.Repositories
             await _dbContext.SaveChangesAsync();
             return new People { Id = person.Id, FirstName = person.FirstName, LastName = person.LastName};
 
+        }
+
+        public async Task<People> UpdatePeoplesAsync(int id, People people)
+        {
+            var person = await _dbContext.People.FindAsync(id);
+            var personToUpdate = new PersonEntity { FirstName = people.FirstName, LastName = people.LastName };
+            if (person == null)
+            {
+                return null;
+            }
+            person.FirstName = personToUpdate.FirstName;
+            person.LastName = personToUpdate.LastName;
+            await _dbContext.SaveChangesAsync();
+            return new People { Id = person.Id, FirstName = person.FirstName, LastName = person.LastName };
         }
     }
 }

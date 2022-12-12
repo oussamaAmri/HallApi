@@ -20,7 +20,14 @@ public class HallService : IHallService
     {
         return await _repository.AddHallsAsync(hall);
     }
-
+    public async Task<Hall> UpdateHallsAsync(int id, Hall hall)
+    {
+        return await _repository.UpdateHallsAsync(id, hall);
+    }
+    public async Task<Hall> DeleteHallsAsync(int id)
+    {
+        return await _repository.DeleteHallsAsync(id);
+    }
     public IEnumerable<string> GetPeople()
     {
         throw new NotImplementedException();

@@ -10,9 +10,18 @@ public class PeopleService : IPeopleService
     {
         return await _repository.GetPeopleAsync();
     }
+    public async Task<People> GetPeopleByIdAsync(int id)
+    {
+        return await _repository.GetPeopleByIdAsync(id);
+    }
     public async Task<People> AddPeoplesAsync(People people)
     {
         return await _repository.AddPeoplesAsync(people);
+    }
+
+    public async Task<People> UpdatePeoplesAsync(int id,People people)
+    {
+        return await _repository.UpdatePeoplesAsync(id,people);
     }
 
     public PeopleService(IPeopleRepository peopleRepository)

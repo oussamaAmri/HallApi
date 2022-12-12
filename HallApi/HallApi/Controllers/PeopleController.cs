@@ -32,6 +32,21 @@ namespace HallApi.Controllers
                 })
             });
         }
+        [HttpGet("Personnes/{id}")]
+        public async Task<IActionResult> GetPeopleByIdAsync([FromRoute] int id)
+        {
+
+            var people = await _peopleService.GetPeopleByIdAsync(id);
+            if (people == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(new PeopleResponse
+            {
+                  People = new Dtos.PeopleDto { Id = people.Id,FirstName = people.FirstName,LastName = people.LastName}
+            });
+        }
 
         [HttpPost("Personnes")]
         public async Task<IActionResult> AddPeoplesAsync([FromBody] CreatePeopleRequest createPeopleRequest)
@@ -42,6 +57,24 @@ namespace HallApi.Controllers
             {
                 CreatedPeople = new Dtos.PeopleDto { Id = addpeople.Id, FirstName = addpeople.FirstName, LastName =addpeople.LastName }
             });
+        }
+        [HttpPut("Personnes/{id}")]
+
+        public async Task<IActionResult> UpdatePeoplesAsync([FromRoute] int id,[FromBody] UpdatePeopleRequest updatePeopleRequest)
+        {
+            var people = new People { FirstName = updatePeopleRequest.FirstName , LastName = updatePeopleRequest.LastName };
+            var updatePeople = await _peopleService.UpdatePeoplesAsync(id,people);
+            if (updatePeople == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                return this.Ok(new UpdatePeopleResponse
+                {
+                    UpdatePeople = new Dtos.PeopleDto { Id = updatePeople.Id, FirstName = updatePeople.FirstName, LastName = updatePeople.LastName }
+                });
+            }
         }
     }
 }
