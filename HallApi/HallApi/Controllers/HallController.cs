@@ -66,7 +66,7 @@ return new List<string>() { "Salle 1", "Salle 2" , "Salle 3" };
                 CreatedHall = new Dtos.HallDto { Id = addroom.Id, Name = addroom.Name }
             });
         }
-        [HttpPost("Halls/{id}")]
+        [HttpPut("Halls/{id}")]
         public async Task<IActionResult> UpdateHallsAsync([FromRoute] int id, [FromBody] UpdateHallRequest updateHallRequest)
         {
             var room = new Hall { Name = updateHallRequest.RoomName };
