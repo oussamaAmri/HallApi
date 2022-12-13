@@ -76,6 +76,21 @@ namespace HallApi.Controllers
                 });
             }
         }
+        [HttpDelete("Personnes/{id}")]
+        public async Task<IActionResult> DeletePeoplesAsync([FromRoute] int id)
+        {
+
+            var people = await _peopleService.DeletePeoplesAsync(id);
+            if (people == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(new PeopleResponse
+            {
+                People = new Dtos.PeopleDto { Id = people.Id, FirstName = people.FirstName, LastName = people.LastName }
+            });
+        }
     }
 }
  

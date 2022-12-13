@@ -8,5 +8,5 @@ public interface IPeopleRepository
     Task<People> GetPeopleByIdAsync(int id);
     Task<People> AddPeoplesAsync(People people);
     Task<People> UpdatePeoplesAsync(int id, People people);
-
+    Task<People> DeletePeoplesAsync(int id);
 }

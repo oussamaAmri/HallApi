@@ -24,6 +24,11 @@ public class PeopleService : IPeopleService
         return await _repository.UpdatePeoplesAsync(id,people);
     }
 
+    public async Task<People> DeletePeoplesAsync(int id)
+    {
+        return await _repository.DeletePeoplesAsync(id);
+    }
+
     public PeopleService(IPeopleRepository peopleRepository)
     {
         _repository = peopleRepository;

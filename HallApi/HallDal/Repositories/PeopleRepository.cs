@@ -79,5 +79,16 @@ namespace HallDal.Repositories
             await _dbContext.SaveChangesAsync();
             return new People { Id = person.Id, FirstName = person.FirstName, LastName = person.LastName };
         }
+        public async Task<People> DeletePeoplesAsync(int id)
+        {
+            var person = await _dbContext.People.FindAsync(id);
+            if (person == null)
+            {
+                return null;
+            }
+            _dbContext.People.Remove(person);
+            await _dbContext.SaveChangesAsync();
+            return new People { Id = person.Id, FirstName = person.FirstName, LastName = person.LastName };
+        }
     }
 }
