@@ -19,6 +19,9 @@ builder.Services.AddScoped<IHallRepository,HallRepository>();
 builder.Services.AddScoped<IPeopleService, PeopleService>();
 builder.Services.AddScoped<IPeopleRepository, PeopleRepository>();
 
+builder.Services.AddScoped<IBookingService, BookingService>();
+builder.Services.AddScoped<IBookingRepository, BookingRepository>();
+
 //builder.Services.AddSingleton;
 //builder.Services.AddTransient;
 

@@ -5,6 +5,7 @@ using HallDomain.Interfaces;
 using HallDomain.Models;
 using HallDomain.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace HallApi.Controllers
 {
@@ -20,7 +21,6 @@ return new List<string>() { "Salle 1", "Salle 2" , "Salle 3" };
 */
         private readonly IHallService _hallService;
         //        private readonly FuwearContext _db;
-
         public HallController(IHallService ihallService)
         {
             _hallService = ihallService;
@@ -41,7 +41,6 @@ return new List<string>() { "Salle 1", "Salle 2" , "Salle 3" };
         }
 
         [HttpGet("Halls/{id}")]
-
         public async Task<IActionResult> GetHallsByIdAsync([FromRoute] int id)
         {
 
@@ -59,6 +58,10 @@ return new List<string>() { "Salle 1", "Salle 2" , "Salle 3" };
         [HttpPost("Halls")]
         public async Task<IActionResult> AddHallsAsync([FromBody] CreateHallRequest createHallRequest)
         {
+            if (!ModelState.IsValid)
+            { 
+                return BadRequest(ModelState);//error 400 
+            }
             var hall = new Hall { Name = createHallRequest.RoomName };
             var addroom = await _hallService.AddHallsAsync(hall);
             return this.StatusCode(201, new CreateHallResponse
@@ -98,6 +101,5 @@ return new List<string>() { "Salle 1", "Salle 2" , "Salle 3" };
                 Hall = new Dtos.HallDto { Id = hall.Id, Name = hall.Name }
             });
         }
-
     }
 }
