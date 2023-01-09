@@ -27,11 +27,28 @@ public class BookingController : ControllerBase
             Bookings = booking.Select(b=> new Dtos.BookingDto
             {
                 Id = b.Id,
+                BookingDate = b.BookingDate,
                 StartSlot = b.StartSlot,
                 EndSlot = b.EndSlot
             })
         });
     }
+
+/*    [HttpGet("Booking/{id}")]
+    public async Task<IActionResult> GetReservationByIdAsync([FromRoute] int id)
+    {
+        var reservation = await _bookingService.GetReservationByIdAsync(id);
+        if (reservation == null)
+        {
+            return NotFound();
+        }
+
+        return Ok(new BookingResponse
+        {
+            reservation = new BookingDto { Id  = , Name = hall.Name }
+        });
+    }
+*/
     [HttpPost("booking")]
     public async Task<IActionResult> AddReservationAsync([FromBody] CreateBookingRequest createBookingRequest)
     {
@@ -47,8 +64,12 @@ public class BookingController : ControllerBase
         reservation.EndSlot = createBookingRequest.EndSlot;
         var addBooking = await _bookingService.AddReservationAsync(reservation);
         var responseUsers = new BookingResponseUsers();
-        responseUsers.message = addBooking.ErrorMSG;
-        responseUsers.infoReservation = new BookingDto { Id = addBooking.booking.Id, RoomId = addBooking.booking.RoomId, PersonId = addBooking.booking.PersonId, BookingDate = addBooking.booking.BookingDate, StartSlot = addBooking.booking.StartSlot, EndSlot = addBooking.booking.EndSlot };
+        responseUsers.message = addBooking.ErrorMSG.ToList();
+        if(addBooking.booking != null)
+        {
+            responseUsers.infoReservation = new BookingDto { Id = addBooking.booking.Id, RoomId = addBooking.booking.RoomId, PersonId = addBooking.booking.PersonId, BookingDate = addBooking.booking.BookingDate, StartSlot = addBooking.booking.StartSlot, EndSlot = addBooking.booking.EndSlot };
+        }
+        
         responseUsers.listesCreneux = addBooking?.ListReservation.Select(i=>new SlotDto { startSlot=i.startSlot, endSlot=i.endSlot });
         return Ok(addBooking); 
     }

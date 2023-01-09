@@ -7,43 +7,72 @@ using System.Net.WebSockets;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
+//ajout méthode supprimer reservation
+//ajout méthode qui prend on paramètre un id de la salle qui renvois toutes les reservations pour la salle
+//ajout des test sur la méthode pour reserver une salle 
 namespace HallDomain.Services
 {
     public class BookingService : IBookingService
     {
         private readonly IBookingRepository _repository;
+        private readonly IHallService _hallService;
+        private readonly IPeopleService _peopleService;
         //constructeur
-        public BookingService(IBookingRepository bookingRepository)
+        public BookingService(IBookingRepository bookingRepository, IHallService hallService, IPeopleService peopleService)
         {
             _repository = bookingRepository;
+            this._hallService = hallService;
+            this._peopleService = peopleService;
         }
         
-        public async Task<ResultCreationBooking> AddReservationAsync(Booking reservation)
+        private async Task<(string,bool)> CheckRoom(int roomId)
         {
-//            var reservation = new Booking();
-            //Vérification des créneaux 0=>23
-            if (reservation.StartSlot < 0 && reservation.EndSlot > 23)
+            var hall = await _hallService.GetHallsByIdAsync(roomId);
+            if (hall == null)
             {
-                var ResultCreatBooking = new ResultCreationBooking();
-                ResultCreatBooking.ErrorMSG = "Réservation non confirmer";
-                return ResultCreatBooking;
-                //reservation non confirmer
-                //creation obj model 
+                var idH = roomId;
+                return ("RoomId incorrect N : " + idH,false);
             }
-//            var myList = new List<Booking>();
+            return (string.Empty, true);
+        }
+
+        private async Task<(string,bool)> CheckPeople(int peopleId)
+        {
+            var people = await _peopleService.GetPeopleByIdAsync(peopleId);
+            if (people == null)
+            {
+                var idP = peopleId;
+                return ("PersonId incorrect N : " + idP,false);
+            }
+            return (string.Empty, true);
+        }
+
+        private (string,bool) CheckDate(int startSlot,int EndSlot)
+        {
+
+            if (startSlot < 0 && EndSlot > 23)
+            {
+                return ("Réservation non confirmer" + startSlot + " " + EndSlot ,false);
+            }
+            return (string.Empty,true);
+        }
+
+        private async Task<bool> VerificationReservation(Booking reservation)
+        {
             var verificationReservation = await _repository.GetReservationsAsync();
             bool nonDisponible = false;
-            foreach(var check in verificationReservation)
+            foreach (var check in verificationReservation)
             {
-                if(reservation.BookingDate==check.BookingDate)
+                if (reservation.BookingDate.Date == check.BookingDate.Date)
                 {
                     if (check.RoomId == reservation.RoomId)
                     {
                         //test creneux 
-//                        if ((reservation.StartSlot == check.StartSlot && reservation.EndSlot == check.EndSlot) ||(reservation.StartSlot > 0 || reservation.EndSlot<23)) 
-                            if(check.StartSlot >= reservation.StartSlot && check.StartSlot <= reservation.EndSlot || 
-                                check.EndSlot >= reservation.StartSlot && check.EndSlot <= reservation.EndSlot)
+                        //                        if ((reservation.StartSlot == check.StartSlot && reservation.EndSlot == check.EndSlot) ||(reservation.StartSlot > 0 || reservation.EndSlot<23)) 
+                        if (check.StartSlot >= reservation.StartSlot && check.StartSlot <= reservation.EndSlot ||
+                            check.EndSlot >= reservation.StartSlot && check.EndSlot <= reservation.EndSlot)
 
                         {
                             nonDisponible = true;
@@ -51,36 +80,65 @@ namespace HallDomain.Services
                     }
                 }
             }
+            return nonDisponible;
+        }
+        public async Task<ResultCreationBooking> AddReservationAsync(Booking reservation)
+        {
+            //Test sur le roomID 
+            (string errorMsgRoom, bool isValidRoom) = await CheckRoom(reservation.RoomId);
+            //Test sur PersonID 
+            (string errorMsgPeople, bool isValidPeople) = await CheckPeople(reservation.PersonId);
+            //Vérification des créneaux 0=>23
+            (string errorMsgDate, bool isValidDate) = CheckDate(reservation.StartSlot,reservation.EndSlot);
+            if(!isValidRoom||!isValidPeople||!isValidDate)
+            {
+                var result = new ResultCreationBooking();
+                if (!isValidRoom)
+                {
+                    result.ErrorMSG.Add(errorMsgRoom);
+                }
+                if(!isValidPeople)
+                {
+                    result.ErrorMSG.Add(errorMsgPeople);
+                }
+                if (!isValidDate)
+                {
+                    result.ErrorMSG.Add(errorMsgDate);
+                }
+                return result;
+            }
+            var nonDisponible = await VerificationReservation(reservation);
             if (nonDisponible)
             {
                 //retourner les créneaux disponible 
+                var currentReservations = await _repository.GetReservationByRommAndByDate(reservation.RoomId, reservation.BookingDate);
                 var ResultCreatBooking = new ResultCreationBooking();
-                var list = new List<Booking>();
                 var ListeDisponible = new List<Slot>();
-                int i, j;
-                int startSlot = 0;
-                int endSlot = 1;
-                /*                foreach (var check in verificationReservation)
-                                {
-                                    if
-                //                    list.Add(check); 
-                                }*/
-                for (i=0; i <= 23; i++)
+                int startSlot=0;
+                for (int i=0; i <= 23; i++)
                 {
-                    for(j=1 ;j<=23; j++)
+                    foreach (var currentVersion in currentReservations)
                     {
-                        foreach (var check in verificationReservation)
+                        if(currentVersion.StartSlot == i)
                         {
-                            if(check.StartSlot!= i && check.EndSlot != j)
+                            if(i>0)
                             {
-                                var slot = new Slot(i,j);
-                                startSlot = i;
-                                endSlot = j;
+                                var slot = new Slot(startSlot,i-1);
                                 ListeDisponible.Add(slot);
+                                startSlot = currentVersion.EndSlot + 1;
                             }
+                            //slot compris entre j et i-1 est c'est le slot disponible 
+                            // après l'ajoute au slot de la liste dipo
+                            //rénistialiser le j en chekc.EndSlot + 1 
+                            //
                         }
-                    }                    
-                }
+                        else if (i == 23)
+                        {
+                            var slot = new Slot(startSlot, i);
+                            ListeDisponible.Add(slot);
+                        }
+                    }
+                 }                       
                 ResultCreatBooking.ListReservation = ListeDisponible;
                 return ResultCreatBooking; 
             }

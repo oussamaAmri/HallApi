@@ -8,7 +8,7 @@ namespace HallDomain.Models
 {
     public class ResultCreationBooking
     {
-        public string ErrorMSG { get; set; }
+        public List<string> ErrorMSG { get; set; } = new List<string>();
         public IEnumerable<Slot> ListReservation { get; set; } = new List<Slot>();
 
         public Booking booking { get; set; }
