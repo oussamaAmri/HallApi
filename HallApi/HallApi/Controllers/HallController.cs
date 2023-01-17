@@ -20,7 +20,6 @@ return new List<string>() { "Salle 1", "Salle 2" , "Salle 3" };
 }
 */
         private readonly IHallService _hallService;
-        //        private readonly FuwearContext _db;
         public HallController(IHallService ihallService)
         {
             _hallService = ihallService;
@@ -43,13 +42,11 @@ return new List<string>() { "Salle 1", "Salle 2" , "Salle 3" };
         [HttpGet("Halls/{id}")]
         public async Task<IActionResult> GetHallsByIdAsync([FromRoute] int id)
         {
-
             var hall = await _hallService.GetHallsByIdAsync(id);
             if (hall == null)
             {
                 return NotFound();
             }
-
             return Ok(new HallResponse
             {
                 Hall = new Dtos.HallDto { Id = hall.Id, Name = hall.Name }
@@ -89,7 +86,6 @@ return new List<string>() { "Salle 1", "Salle 2" , "Salle 3" };
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteHallsAsync([FromRoute] int id)
         {
-
             var hall = await _hallService.DeleteHallsAsync(id);
             if (hall == null)
             {

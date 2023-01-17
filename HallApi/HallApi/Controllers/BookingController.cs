@@ -24,9 +24,28 @@ public class BookingController : ControllerBase
         IEnumerable<Booking> booking = await _bookingService.GetReservationsAsync();
         return Ok(new BookingsResponse
         {
-            Bookings = booking.Select(b=> new Dtos.BookingDto
+            Bookings = booking.Select(b => new Dtos.BookingDto
             {
                 Id = b.Id,
+                RoomId = b.RoomId,
+                PersonId = b.PersonId,
+                BookingDate = b.BookingDate,
+                StartSlot = b.StartSlot,
+                EndSlot = b.EndSlot
+            })
+        });
+    }
+    [HttpGet("Booking/{roomId}")]
+    public async Task<IActionResult> GetReservationByIdAsync([FromRoute] int roomId)
+    {
+        IEnumerable<Booking> booking = await _bookingService.GetReservationByIdAsync(roomId);
+        return Ok(new BookingsResponse
+        {
+            Bookings = booking.Select(b => new Dtos.BookingDto
+            {
+                Id = b.Id,
+                RoomId = b.RoomId,
+                PersonId = b.PersonId,
                 BookingDate = b.BookingDate,
                 StartSlot = b.StartSlot,
                 EndSlot = b.EndSlot
@@ -34,21 +53,6 @@ public class BookingController : ControllerBase
         });
     }
 
-/*    [HttpGet("Booking/{id}")]
-    public async Task<IActionResult> GetReservationByIdAsync([FromRoute] int id)
-    {
-        var reservation = await _bookingService.GetReservationByIdAsync(id);
-        if (reservation == null)
-        {
-            return NotFound();
-        }
-
-        return Ok(new BookingResponse
-        {
-            reservation = new BookingDto { Id  = , Name = hall.Name }
-        });
-    }
-*/
     [HttpPost("booking")]
     public async Task<IActionResult> AddReservationAsync([FromBody] CreateBookingRequest createBookingRequest)
     {
@@ -72,5 +76,39 @@ public class BookingController : ControllerBase
         
         responseUsers.listesCreneux = addBooking?.ListReservation.Select(i=>new SlotDto { startSlot=i.startSlot, endSlot=i.endSlot });
         return Ok(addBooking); 
+    }
+    [HttpDelete("Booking/{id}")]
+    public async Task<IActionResult> DeleteBookingsAsync([FromRoute] int id)
+    {
+        var booking = await _bookingService.DeleteBookingsAsync(id);
+        if (booking == null)
+        {
+            return NotFound();
+        }
+        return Ok(new BookingResponse
+        {
+            booking = new Dtos.BookingDto { Id = booking.Id, PersonId = booking.PersonId, RoomId = booking.RoomId,BookingDate=booking.BookingDate,StartSlot=booking.StartSlot,EndSlot=booking.EndSlot}
+        });
+    }
+
+    [HttpPost("booking/search")]
+    public async Task<IActionResult> GetReservationByRommAndByDate([FromBody] SearchBookingRequeste searchBookingRequeste)
+    {
+        SearchBooking searchBooking = new SearchBooking();
+        searchBooking.RoomId = searchBookingRequeste.RoomId;
+        searchBooking.Date = searchBookingRequeste.Date;
+        var booking = await _bookingService.GetReservationByRommAndByDate(searchBooking);
+        return Ok(new BookingsResponse
+        {
+            Bookings = booking.Select(b => new Dtos.BookingDto
+            {
+                Id = b.Id,
+                RoomId = b.RoomId,
+                PersonId = b.PersonId,
+                BookingDate = b.BookingDate,
+                StartSlot = b.StartSlot,
+                EndSlot = b.EndSlot
+            })
+        });
     }
 }

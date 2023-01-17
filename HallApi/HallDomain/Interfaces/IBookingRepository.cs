@@ -10,9 +10,9 @@ namespace HallDomain.Interfaces
     public interface IBookingRepository
     {
         Task<IEnumerable<Booking>> GetReservationsAsync();
- //       Task<IEnumerable<Booking>> GetReservationByIdAsync(int id);
+        Task<IEnumerable<Booking>> GetReservationByIdAsync(int roomId);
         Task<Booking> AddReservationAsync(Booking reservation);
-
-        Task<IEnumerable<Booking>> GetReservationByRommAndByDate(int roomId,DateTime date);
+        Task<IEnumerable<Booking>> GetReservationByRommAndByDate(SearchBooking searchBooking);
+        Task<Booking> DeleteBookingsAsync(int id);
     }
 }

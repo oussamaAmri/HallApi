@@ -12,12 +12,10 @@ namespace HallApi.Controllers
     public class PeopleController : ControllerBase
     {
         private readonly IPeopleService _peopleService;
-
         public PeopleController (IPeopleService peopleService)
         {
             _peopleService = peopleService;
         }
-
         [HttpGet("Personnes")]
         public async Task<IActionResult> GetPeopleAsync()
         {
@@ -41,13 +39,11 @@ namespace HallApi.Controllers
             {
                 return NotFound();
             }
-
             return Ok(new PeopleResponse
             {
                   People = new Dtos.PeopleDto { Id = people.Id,FirstName = people.FirstName,LastName = people.LastName}
             });
         }
-
         [HttpPost("Personnes")]
         public async Task<IActionResult> AddPeoplesAsync([FromBody] CreatePeopleRequest createPeopleRequest)
         {

@@ -21,10 +21,10 @@ public class BookingRepository : IBookingRepository
         return new Booking { Id = booking.Id, RoomId = booking.RoomId, PersonId = booking.PersonId, BookingDate = booking.BookingDate, StartSlot = booking.StartSlot, EndSlot = booking.EndSlot };
     }
 
-    public async Task<IEnumerable<Booking>> GetReservationByRommAndByDate(int roomId, DateTime date)
+    public async Task<IEnumerable<Booking>> GetReservationByRommAndByDate(SearchBooking searchBooking)
     {
         return await _dbContext.Bookings.
-            Where(b=> b.RoomId == roomId && b.BookingDate.Date == date.Date).
+            Where(b=> b.RoomId == searchBooking.RoomId && b.BookingDate.Date == searchBooking.Date.Date).
             Select(b => new Booking
         {
             Id = b.Id,
@@ -50,13 +50,31 @@ public class BookingRepository : IBookingRepository
         }).ToListAsync();
     }
 
-  /*  public async Task<Booking> GetReservationByIdAsync(int id)
+    public async Task<IEnumerable<Booking>> GetReservationByIdAsync(int roomId)
     {
-        var booking = await _dbContext.Bookings.SingleOrDefaultAsync(r => r.Id == id);
+        return await _dbContext.Bookings.
+            Where(b => b.RoomId == roomId).
+            Select(b => new Booking
+            {
+                Id = b.Id,
+                RoomId = b.RoomId,
+                PersonId = b.PersonId,
+                BookingDate = b.BookingDate,
+                StartSlot = b.StartSlot,
+                EndSlot = b.EndSlot
+
+            }).ToListAsync();
+    }
+
+    public async Task<Booking> DeleteBookingsAsync(int id)
+    {
+        var booking = await _dbContext.Bookings.FindAsync(id);
         if (booking == null)
         {
             return null;
         }
-        return new Booking { Id = booking.Id, RoomId = booking.RoomId, PersonId = booking.PersonId, BookingDate = booking.BookingDate, StartSlot = booking.StartSlot, EndSlot = booking.EndSlot };
-    }*/
+        _dbContext.Bookings.Remove(booking);
+        await _dbContext.SaveChangesAsync();
+        return new Booking { Id = booking.Id, PersonId = booking.PersonId,RoomId=booking.RoomId,BookingDate=booking.BookingDate,StartSlot=booking.StartSlot,EndSlot=booking.EndSlot};
+    }
 }

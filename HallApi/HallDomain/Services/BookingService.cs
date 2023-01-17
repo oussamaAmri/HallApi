@@ -70,7 +70,7 @@ namespace HallDomain.Services
                     if (check.RoomId == reservation.RoomId)
                     {
                         //test creneux 
-                        //                        if ((reservation.StartSlot == check.StartSlot && reservation.EndSlot == check.EndSlot) ||(reservation.StartSlot > 0 || reservation.EndSlot<23)) 
+                        //if ((reservation.StartSlot == check.StartSlot && reservation.EndSlot == check.EndSlot) ||(reservation.StartSlot > 0 || reservation.EndSlot<23)) 
                         if (check.StartSlot >= reservation.StartSlot && check.StartSlot <= reservation.EndSlot ||
                             check.EndSlot >= reservation.StartSlot && check.EndSlot <= reservation.EndSlot)
 
@@ -111,7 +111,10 @@ namespace HallDomain.Services
             if (nonDisponible)
             {
                 //retourner les créneaux disponible 
-                var currentReservations = await _repository.GetReservationByRommAndByDate(reservation.RoomId, reservation.BookingDate);
+                SearchBooking searchBooking = new SearchBooking();
+                searchBooking.RoomId = reservation.RoomId;
+                searchBooking.Date = reservation.BookingDate;
+                var currentReservations = await _repository.GetReservationByRommAndByDate(searchBooking);
                 var ResultCreatBooking = new ResultCreationBooking();
                 var ListeDisponible = new List<Slot>();
                 int startSlot=0;
@@ -163,6 +166,18 @@ namespace HallDomain.Services
         {
             return await _repository.GetReservationsAsync();
         }
+        public async Task<Booking> DeleteBookingsAsync(int id)
+        {
+            return await _repository.DeleteBookingsAsync(id);
+        }
+        public async Task<IEnumerable<Booking>> GetReservationByIdAsync(int roomId)
+        {
+            return await _repository.GetReservationByIdAsync(roomId);
+        }
 
+        public async Task<IEnumerable<Booking>> GetReservationByRommAndByDate(SearchBooking searchBooking)
+        {
+            return await _repository.GetReservationByRommAndByDate(searchBooking);
+        }
     }
 }

@@ -28,7 +28,6 @@ public class PeopleService : IPeopleService
     {
         return await _repository.DeletePeoplesAsync(id);
     }
-
     public PeopleService(IPeopleRepository peopleRepository)
     {
         _repository = peopleRepository;
